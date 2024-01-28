@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="lightPinkGray">#AE9C9C</color>
+
+    <color name="ActionButtons">@color/lightPinkGray</color>
+
+
 </resources>
