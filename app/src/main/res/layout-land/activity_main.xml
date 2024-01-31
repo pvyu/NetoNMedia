@@ -8,17 +8,12 @@
     android:padding="@dimen/common_spacing"
     tools:context=".MainActivity">
 
-<!--        android:layout_width="@dimen/posts_avatar_size"-->
-<!--        android:layout_height="@dimen/posts_avatar_size"-->
+    <!--Как наложить ограничения по максимальному и минимальному размерам
+        в процентном соотношении от размеров родительского компонента?-->
     <ImageView
         android:id="@+id/avatar"
-
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.08"
-        app:layout_constraintDimensionRatio="1:1"
-
-
+        android:layout_width="@dimen/posts_avatar_size"
+        android:layout_height="@dimen/posts_avatar_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
@@ -28,8 +23,8 @@
         android:id="@+id/txtAuthor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/small_spacing"
-        android:layout_marginEnd="@dimen/small_spacing"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
 
         android:ellipsize="end"
         android:maxLines="1"
@@ -46,8 +41,8 @@
         android:id="@+id/txtPublished"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/small_spacing"
-        android:layout_marginEnd="@dimen/small_spacing"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/common_spacing"
 
         android:ellipsize="end"
         android:maxLines="1"
@@ -76,21 +71,23 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="avatar,txtAuthor,txtPublished,btnPostMnu" />
 
+    <!--Не понятно как центрировать текст по ширине-->
     <TextView
         android:id="@+id/txtContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_spacing"
 
-        android:justificationMode="inter_word"
+        android:textAlignment="inherit"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/barrierMsgHeader"
-        app:barrierMargin="@dimen/small_spacing"
+
         tools:text="@sample/posts.json/data/content" />
 
+    <!--Проблема с отступом от контента до нижнего барьера-->
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrierContent"
         android:layout_width="wrap_content"
@@ -174,11 +171,11 @@
         app:srcCompat="@drawable/baseline_remove_red_eye_24"
         android:background="@android:color/transparent"
 
-        app:layout_constraintEnd_toStartOf="@+id/txtViewed"
+        app:layout_constraintEnd_toEndOf="@+id/txtViewed"
         app:layout_constraintTop_toBottomOf="@+id/barrierContent"
 
         android:layout_marginTop="@dimen/common_spacing"
-        android:layout_marginEnd="@dimen/small_spacing"/>
+        android:layout_marginEnd="@dimen/common_spacing"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
