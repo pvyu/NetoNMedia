@@ -165,7 +165,7 @@
 
 <!--        app:tint="@color/ActionButtons"-->
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/btnViewed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/baseline_remove_red_eye_24"

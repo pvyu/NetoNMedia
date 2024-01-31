@@ -45,12 +45,21 @@ class MainActivity : AppCompatActivity() {
             txtAuthor.text = post.author
             txtPublished.text = post.published
             txtContent.text = post.content
-            txtLiked.text = post.likesCount.toString()
-            txtShared.text = post.sharedCount.toString()
+            txtLiked.text = FormatCountValue(post.likesCount)
+            txtShared.text = FormatCountValue(post.sharedCount)
             txtViewed.text = "0"
         }
 
+        binding.root.setOnClickListener {
+            println("binding.root.setOnClickListener")
+        }
+
+        binding.avatar.setOnClickListener {
+            println("binding.avatar.setOnClickListener")
+        }
+
         binding.btnLiked.setOnClickListener {
+            println("binding.btnLiked.setOnClickListener")
             post.likedByMe =!post.likedByMe
             if (post.likedByMe) {
                 post.likesCount++;
@@ -60,10 +69,11 @@ class MainActivity : AppCompatActivity() {
                 post.likesCount--;
                 binding.btnLiked.setImageResource(R.drawable.baseline_favorite_border_24)
             }
-            binding.txtLiked.text = post.likesCount.toString()
+            binding.txtLiked.text = FormatCountValue(post.likesCount)
        }
 
         binding.btnShared.setOnClickListener {
+            println("binding.btnShared.setOnClickListener")
             post.sharedCount += StepForShaeredCountyer
             println(post.sharedCount)
             binding.txtShared.text = FormatCountValue(post.sharedCount)
