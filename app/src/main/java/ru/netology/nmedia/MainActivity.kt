@@ -3,13 +3,15 @@ package ru.netology.nmedia
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.viewmodel.PostViewModel
 import kotlin.math.log10
 
 class MainActivity : AppCompatActivity() {
 
-    fun FormatCountValue(count : Int) : String = when((log10(count.toDouble()) + 1).toInt()) {
+    fun FormatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
         in 0..3 -> { count.toString() }
         in 4..6  -> { String.format("%.1f", count / 1000.0) + "K" }
         else -> { String.format("%.1f", count / 1000000.0) + "M"  }
@@ -29,65 +31,46 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val post = Post(id = 1,
-                        author = "author",
-                        published = "published",
-                        content = "content",
-                        likesCount = 0,
-                        likedByMe = false,
-                        sharedCount = 0,
-                        viewedCount  = 0
-        )
+        //todo:
+        // 1. Как передать объект конкретного репозитария?
+        // 2. viewModel и,как следствие, репозитарий создаются в активити, и,
+        // следовательно, должны пересоздаваться вместе с ней.
+        // Почему этого не происходит?
+        // 3. Сейчас viewModel фактически является репозитаерием, не ясно как их отделить, и
+        // где лучше разместитиьть/хранить репозиторий.
+        // 4. Не разобрался как инстанцировать viewModel через объявление viewModel:
+        // class PostViewModel(private var repository: PostRepository) : ViewModel() {
+        //   fun chanchReposytory(postRepository : PostRepository) {}
+        // }
+        // и каким образом можно подменить репозиторий в рантайм.
 
-        var StepForShaeredCountyer : Int = 1
+        val viewModel : PostViewModel by viewModels()
 
-        with(binding) {
-            txtAuthor.text = post.author
-            txtPublished.text = post.published
-            txtContent.text = post.content
-            txtLiked.text = FormatCountValue(post.likesCount)
-            txtShared.text = FormatCountValue(post.sharedCount)
-            txtViewed.text = "0"
-        }
-
-        binding.root.setOnClickListener {
-            println("binding.root.setOnClickListener")
-        }
-
-        binding.avatar.setOnClickListener {
-            println("binding.avatar.setOnClickListener")
+        viewModel.data.observe(this) { post ->
+            with(binding) {
+                txtAuthor.text = post.author
+                txtPublished.text = post.published
+                txtContent.text = post.content
+                btnLiked.setImageResource(
+                    if (post.likedByMe) { R.drawable.baseline_favorite_red_24 } else { R.drawable.baseline_favorite_border_24 }
+                )
+                txtLiked.text = FormatCountValue(post.likesCount)
+                txtShared.text = FormatCountValue(post.sharedCount)
+                txtViewed.text = FormatCountValue(post.viewedCount)
+            }
         }
 
         binding.btnLiked.setOnClickListener {
-            println("binding.btnLiked.setOnClickListener")
-            post.likedByMe =!post.likedByMe
-            if (post.likedByMe) {
-                post.likesCount++;
-                binding.btnLiked.setImageResource(R.drawable.baseline_favorite_red_24)
-            }
-            else {
-                post.likesCount--;
-                binding.btnLiked.setImageResource(R.drawable.baseline_favorite_border_24)
-            }
-            binding.txtLiked.text = FormatCountValue(post.likesCount)
-       }
-
-        binding.btnShared.setOnClickListener {
-            println("binding.btnShared.setOnClickListener")
-            post.sharedCount += StepForShaeredCountyer
-            println(post.sharedCount)
-            binding.txtShared.text = FormatCountValue(post.sharedCount)
-
-            StepForShaeredCountyer *= 2
+            viewModel.like()
         }
 
+        binding.btnShared.setOnClickListener {
+            viewModel.share()
+        }
 
-
-
-
-
-
-
+        binding.btnViewed.setOnClickListener {
+            viewModel.view()
+        }
 
 
     }
