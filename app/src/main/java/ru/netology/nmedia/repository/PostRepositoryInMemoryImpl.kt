@@ -20,7 +20,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             viewedCount = 0,
         ),
         Post(
-            id = 1,
+            id = 2,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это второй!",
             published = "08 февракля в 21:43",
@@ -29,7 +29,58 @@ class PostRepositoryInMemoryImpl : PostRepository {
             sharedCount = 0,
             viewedCount = 0,
         ),
+        Post(
+            id = 3,
+            author = "Нетология. Университет интернет-профессий будущего",
+            content = "Привет, это третий!",
+            published = "08 февракля в 21:43",
+            likesCount = 0,
+            likedByMe = false,
+            sharedCount = 0,
+            viewedCount = 0,
+        ),
+        Post(
+            id = 4,
+            author = "Нетология. Университет интернет-профессий будущего",
+            content = "Привет, это четвёртый!",
+            published = "08 февракля в 21:43",
+            likesCount = 0,
+            likedByMe = false,
+            sharedCount = 0,
+            viewedCount = 0,
+        ),
+        Post(
+            id = 5,
+            author = "Нетология. Университет интернет-профессий будущего",
+            content = "Привет, это пятый!",
+            published = "08 февракля в 21:43",
+            likesCount = 0,
+            likedByMe = false,
+            sharedCount = 0,
+            viewedCount = 0,
+        ),
+        Post(
+            id = 6,
+            author = "Нетология. Университет интернет-профессий будущего",
+            content = "Привет, это шестой!",
+            published = "08 февракля в 21:43",
+            likesCount = 0,
+            likedByMe = false,
+            sharedCount = 0,
+            viewedCount = 0,
+        ),
+        Post(
+            id = 7,
+            author = "Нетология. Университет интернет-профессий будущего",
+            content = "Привет, это седьмой!",
+            published = "08 февракля в 21:43",
+            likesCount = 0,
+            likedByMe = false,
+            sharedCount = 0,
+            viewedCount = 0,
+        ),
     )
+
     private val data : MutableLiveData<List<Post>> = MutableLiveData(posts)
 
     override fun getAll(): LiveData<List<Post>> = data

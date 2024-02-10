@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.data.observe(this) { posts ->
             posts.forEach { post->
-                CardPostBinding.inflate(layoutInflater, binding.root, true).apply {
+                CardPostBinding.inflate(layoutInflater, binding.container, true).apply {
                     txtAuthor.text = post.author
                     txtPublished.text = post.published
                     txtContent.text = post.content
