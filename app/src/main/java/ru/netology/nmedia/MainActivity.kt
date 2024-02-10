@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel : PostViewModel by viewModels()
 
         viewModel.data.observe(this) { posts ->
+            binding.container.removeAllViews()
             posts.forEach { post->
                 CardPostBinding.inflate(layoutInflater, binding.container, true).apply {
                     txtAuthor.text = post.author
@@ -59,26 +60,18 @@ class MainActivity : AppCompatActivity() {
                     txtLiked.text = FormatCountValue(post.likesCount)
                     txtShared.text = FormatCountValue(post.sharedCount)
                     txtViewed.text = FormatCountValue(post.viewedCount)
-                }
-            }
 
-
-
-
-        }
-
-//        binding.btnLiked.setOnClickListener {
-//            viewModel.like()
-//        }
-//
-//        binding.btnShared.setOnClickListener {
-//            viewModel.share()
-//        }
-//
-//        binding.btnViewed.setOnClickListener {
-//            viewModel.view()
-//        }
-
-
-    }
+                    btnLiked.setOnClickListener {
+                        viewModel.likeById(post.id)
+                    }
+                    btnShared.setOnClickListener {
+                        viewModel.shareById(post.id)
+                    }
+                    btnViewed.setOnClickListener {
+                        viewModel.viewById(post.id)
+                    }
+                } // CardPostBinding.inflate(){}
+            } // posts.forEach {}
+        } // viewModel.data.observe()
+    } //override fun onCreate()
 }
