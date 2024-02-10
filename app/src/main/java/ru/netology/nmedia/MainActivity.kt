@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
@@ -11,12 +12,6 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 import kotlin.math.log10
 
 class MainActivity : AppCompatActivity() {
-
-    fun FormatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
-        in 0..3 -> { count.toString() }
-        in 4..6  -> { String.format("%.1f", count / 1000.0) + "K" }
-        else -> { String.format("%.1f", count / 1000000.0) + "M"  }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,31 +42,14 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel : PostViewModel by viewModels()
 
-        viewModel.data.observe(this) { posts ->
-            binding.container.removeAllViews()
-            posts.forEach { post->
-                CardPostBinding.inflate(layoutInflater, binding.container, true).apply {
-                    txtAuthor.text = post.author
-                    txtPublished.text = post.published
-                    txtContent.text = post.content
-                    btnLiked.setImageResource(
-                        if (post.likedByMe) { R.drawable.baseline_favorite_red_24 } else { R.drawable.baseline_favorite_border_24 }
-                    )
-                    txtLiked.text = FormatCountValue(post.likesCount)
-                    txtShared.text = FormatCountValue(post.sharedCount)
-                    txtViewed.text = FormatCountValue(post.viewedCount)
+        val adapter = PostsAdapter({post: Post -> viewModel.likeById(post.id)},
+                                   {post: Post -> viewModel.shareById(post.id)},
+                                   {post: Post -> viewModel.viewById(post.id)})
 
-                    btnLiked.setOnClickListener {
-                        viewModel.likeById(post.id)
-                    }
-                    btnShared.setOnClickListener {
-                        viewModel.shareById(post.id)
-                    }
-                    btnViewed.setOnClickListener {
-                        viewModel.viewById(post.id)
-                    }
-                } // CardPostBinding.inflate(){}
-            } // posts.forEach {}
-        } // viewModel.data.observe()
+        viewModel.data.observe(this) { posts ->
+            adapter.list = posts
+        } // viewModel.data.observe(){}
+
+        binding.root.adapter = adapter
     } //override fun onCreate()
 }

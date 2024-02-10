@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--    androidx.constraintlayout.widget.ConstraintLayout-->
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainScrollViewLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/small_spacing"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
 
+    tools:listitem="@layout/card_post">
 
-    <LinearLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/small_spacing"
-        tools:context=".MainActivity"
-        android:orientation="vertical">
-
-
-
-
-
-    </LinearLayout>
-
-
-</ScrollView>
+</androidx.recyclerview.widget.RecyclerView>
