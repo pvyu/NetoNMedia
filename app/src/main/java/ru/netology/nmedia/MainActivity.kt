@@ -48,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         val viewModel : PostViewModel by viewModels()
 
         viewModel.data.observe(this) { posts ->
-            posts.map { post->
-                CardPostBinding.inflate(layoutInflater, binding.root, false).apply {
+            posts.forEach { post->
+                CardPostBinding.inflate(layoutInflater, binding.root, true).apply {
                     txtAuthor.text = post.author
                     txtPublished.text = post.published
                     txtContent.text = post.content
@@ -59,38 +59,25 @@ class MainActivity : AppCompatActivity() {
                     txtLiked.text = FormatCountValue(post.likesCount)
                     txtShared.text = FormatCountValue(post.sharedCount)
                     txtViewed.text = FormatCountValue(post.viewedCount)
-
-
-
                 }
             }
 
 
 
-//            with(binding) {
-//                txtAuthor.text = post.author
-//                txtPublished.text = post.published
-//                txtContent.text = post.content
-//                btnLiked.setImageResource(
-//                    if (post.likedByMe) { R.drawable.baseline_favorite_red_24 } else { R.drawable.baseline_favorite_border_24 }
-//                )
-//                txtLiked.text = FormatCountValue(post.likesCount)
-//                txtShared.text = FormatCountValue(post.sharedCount)
-//                txtViewed.text = FormatCountValue(post.viewedCount)
-//            }
+
         }
 
-        binding.btnLiked.setOnClickListener {
-            viewModel.like()
-        }
-
-        binding.btnShared.setOnClickListener {
-            viewModel.share()
-        }
-
-        binding.btnViewed.setOnClickListener {
-            viewModel.view()
-        }
+//        binding.btnLiked.setOnClickListener {
+//            viewModel.like()
+//        }
+//
+//        binding.btnShared.setOnClickListener {
+//            viewModel.share()
+//        }
+//
+//        binding.btnViewed.setOnClickListener {
+//            viewModel.view()
+//        }
 
 
     }
