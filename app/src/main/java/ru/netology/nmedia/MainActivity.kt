@@ -16,14 +16,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        setContentView(R.layout.activity_main)
-//        findViewById<ImageButton>(R.id.btnLiked).setOnClickListener {
-//            if (it !is ImageButton) {
-//                return@setOnClickListener
-//            }
-//            it.setImageResource(R.drawable.baseline_favorite_red_24)
-//        }
-
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -46,8 +38,10 @@ class MainActivity : AppCompatActivity() {
                                    {post: Post -> viewModel.shareById(post.id)},
                                    {post: Post -> viewModel.viewById(post.id)})
 
+        //todo: нельзя ли сдесь получить более подробную информацию об изменении данных, id поста, например?
+        // Либо, подписаться на некую встпомагательную структуру данных? Чтобы попытаться минимизировать копирование?
         viewModel.data.observe(this) { posts ->
-            adapter.list = posts
+            adapter.submitList(posts)
         } // viewModel.data.observe(){}
 
         binding.root.adapter = adapter
