@@ -7,7 +7,11 @@ import ru.netology.nmedia.dto.Post
 class PostRepositoryInMemoryImpl : PostRepository {
     private var stepForSharedCounter : Int = 1
 
-    //todo: post : MutableList<Post> = mutableListOf<Post> ? постоянные копии !!!
+    //todo:
+    // post : MutableList<Post> = mutableListOf<Post>
+    // Допустимо ли использовать MutableList, будет лди от корректно преобзоваван к
+    // LiveData<List<Post>> для использования сторонними классами
+
     private var posts : List<Post> = listOf<Post> (
         Post(
             id = 1,
