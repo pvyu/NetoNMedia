@@ -12,9 +12,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
     // Допустимо ли использовать MutableList, будет лди от корректно преобзоваван к
     // LiveData<List<Post>> для использования сторонними классами
 
+    private var nextPostId : Long = 0L
+
     private var posts : List<Post> = listOf<Post> (
         Post(
-            id = 1,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
             published = "04 февракля в 21:43",
@@ -24,7 +26,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             viewedCount = 0,
         ),
         Post(
-            id = 2,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это второй!",
             published = "08 февракля в 21:43",
@@ -34,7 +36,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             viewedCount = 0,
         ),
         Post(
-            id = 3,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это третий!",
             published = "08 февракля в 21:43",
@@ -44,7 +46,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             viewedCount = 0,
         ),
         Post(
-            id = 4,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это четвёртый!",
             published = "08 февракля в 21:43",
@@ -54,7 +56,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             viewedCount = 0,
         ),
         Post(
-            id = 5,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это пятый!",
             published = "08 февракля в 21:43",
@@ -64,7 +66,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             viewedCount = 0,
         ),
         Post(
-            id = 6,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это шестой!",
             published = "08 февракля в 21:43",
@@ -74,7 +76,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             viewedCount = 0,
         ),
         Post(
-            id = 7,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это седьмой!",
             published = "08 февракля в 21:43",
@@ -88,6 +90,12 @@ class PostRepositoryInMemoryImpl : PostRepository {
     private val data : MutableLiveData<List<Post>> = MutableLiveData(posts)
 
     override fun getAll(): LiveData<List<Post>> = data
+
+    override fun save(post: Post) {
+        posts = listOf(post.copy(id = ++nextPostId, published = "Published", author = "Author")) + posts
+
+        data.value = posts
+    }
 
     override fun likeById(id : Long) {
         posts = posts.map {
