@@ -2,6 +2,7 @@ package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,8 @@ typealias OnPostChanged = (post: Post) -> Unit
 
 class PostsAdapter(private val onLike : OnPostChanged,
                    private val onShare : OnPostChanged,
-                   private val onView : OnPostChanged
+                   private val onView : OnPostChanged,
+                   private val onRemove: OnPostChanged,
                    ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
 
     fun FormatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
@@ -25,7 +27,7 @@ class PostsAdapter(private val onLike : OnPostChanged,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, onLike, onShare, onView)
+        return PostViewHolder(binding, onLike, onShare, onView, onRemove)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -36,7 +38,8 @@ class PostsAdapter(private val onLike : OnPostChanged,
 class PostViewHolder(private val binding: CardPostBinding,
                      private val onLike: OnPostChanged,
                      private val onShare: OnPostChanged,
-                     private val onView: OnPostChanged
+                     private val onView: OnPostChanged,
+                     private val onRemove: OnPostChanged,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun FormatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
@@ -65,12 +68,32 @@ class PostViewHolder(private val binding: CardPostBinding,
             btnLiked.setOnClickListener {
                 onLike(post)
             }
+
             btnShared.setOnClickListener {
                 onShare(post)
             }
+
             btnViewed.setOnClickListener {
                 onView(post)
             }
+
+            btnPostMenu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.options_post)
+                    setOnMenuItemClickListener {mnuItem ->
+                        when (mnuItem.itemId) {
+                            R.id.mnuRemovePost -> {
+                                onRemove(post)
+                                true
+                            }
+                            else -> false
+                        } // when (it.itemId)
+                    } // setOnMenuItemClickListener {}
+                }.show()
+            }
+
+
+
         } // with(binding)
     } // fun bind()
 }

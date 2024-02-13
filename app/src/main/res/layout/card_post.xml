@@ -33,7 +33,7 @@
         android:maxLines="1"
 
         app:layout_constraintBottom_toTopOf="@id/txtPublished"
-        app:layout_constraintEnd_toStartOf="@+id/btnPostMnu"
+        app:layout_constraintEnd_toStartOf="@+id/btnPostMenu"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@+id/avatar"
 
@@ -51,14 +51,14 @@
         android:maxLines="1"
 
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
-        app:layout_constraintEnd_toStartOf="@+id/btnPostMnu"
+        app:layout_constraintEnd_toStartOf="@+id/btnPostMenu"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@+id/txtAuthor"
 
         tools:text="@sample/posts.json/data/published" />
 
     <ImageButton
-        android:id="@+id/btnPostMnu"
+        android:id="@+id/btnPostMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -72,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar,txtAuthor,txtPublished,btnPostMnu" />
+        app:constraint_referenced_ids="avatar,txtAuthor,txtPublished,btnPostMenu" />
 
     <TextView
         android:id="@+id/txtContent"

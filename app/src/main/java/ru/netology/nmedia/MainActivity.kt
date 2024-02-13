@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = PostsAdapter({post: Post -> viewModel.likeById(post.id)},
                                    {post: Post -> viewModel.shareById(post.id)},
-                                   {post: Post -> viewModel.viewById(post.id)})
+                                   {post: Post -> viewModel.viewById(post.id)},
+                                   {post: Post -> viewModel.removeById(post.id)} )
 
         //todo: нельзя ли здесь получить более подробную информацию об изменении данных, id поста, например?
         // Либо, подписаться на некую встпомагательную структуру данных? Чтобы попытаться минимизировать копирование.

@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">НМедиа</string>
     <string name="rssstrNMedia">НМедиа!</string>
+    <string name="mnuRemovePost">Удалить пост</string>
 </resources>
