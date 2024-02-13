@@ -2,76 +2,41 @@ package ru.netology.nmedia
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
+import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.viewmodel.PostViewModel
-import kotlin.math.log10
 
 class MainActivity : AppCompatActivity() {
 
-    fun FormatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
-        in 0..3 -> { count.toString() }
-        in 4..6  -> { String.format("%.1f", count / 1000.0) + "K" }
-        else -> { String.format("%.1f", count / 1000000.0) + "M"  }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        setContentView(R.layout.activity_main)
-//        findViewById<ImageButton>(R.id.btnLiked).setOnClickListener {
-//            if (it !is ImageButton) {
-//                return@setOnClickListener
-//            }
-//            it.setImageResource(R.drawable.baseline_favorite_red_24)
-//        }
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //todo:
-        // 1. Как передать объект конкретного репозитария?
-        // 2. viewModel и,как следствие, репозитарий создаются в активити, и,
-        // следовательно, должны пересоздаваться вместе с ней.
-        // Почему этого не происходит?
-        // 3. Сейчас viewModel фактически является репозитаерием, не ясно как их отделить, и
-        // где лучше разместитиьть/хранить репозиторий.
-        // 4. Не разобрался как инстанцировать viewModel через объявление viewModel:
+        // разобраться как инстанцировать viewModel через объявление viewModel:
         // class PostViewModel(private var repository: PostRepository) : ViewModel() {
         //   fun chanchReposytory(postRepository : PostRepository) {}
         // }
-        // и каким образом можно подменить репозиторий в рантайм.
+        // через переопределение параметра “фабрика” у функции viewModels -
+        // через этот параметр можно указывать вызов конструктора, если отличается от того, что по умолчанию.
 
         val viewModel : PostViewModel by viewModels()
 
-        viewModel.data.observe(this) { post ->
-            with(binding) {
-                txtAuthor.text = post.author
-                txtPublished.text = post.published
-                txtContent.text = post.content
-                btnLiked.setImageResource(
-                    if (post.likedByMe) { R.drawable.baseline_favorite_red_24 } else { R.drawable.baseline_favorite_border_24 }
-                )
-                txtLiked.text = FormatCountValue(post.likesCount)
-                txtShared.text = FormatCountValue(post.sharedCount)
-                txtViewed.text = FormatCountValue(post.viewedCount)
-            }
-        }
+        val adapter = PostsAdapter({post: Post -> viewModel.likeById(post.id)},
+                                   {post: Post -> viewModel.shareById(post.id)},
+                                   {post: Post -> viewModel.viewById(post.id)})
 
-        binding.btnLiked.setOnClickListener {
-            viewModel.like()
-        }
+        //todo: нельзя ли здесь получить более подробную информацию об изменении данных, id поста, например?
+        // Либо, подписаться на некую встпомагательную структуру данных? Чтобы попытаться минимизировать копирование.
+        // В этом случае ListAdaptor будет, скорее всего, не нужен?
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
+        } // viewModel.data.observe(){}
 
-        binding.btnShared.setOnClickListener {
-            viewModel.share()
-        }
-
-        binding.btnViewed.setOnClickListener {
-            viewModel.view()
-        }
-
-
-    }
+        binding.root.adapter = adapter
+    } //override fun onCreate()
 }
