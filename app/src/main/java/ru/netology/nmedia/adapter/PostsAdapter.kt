@@ -2,6 +2,7 @@ package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,36 +11,41 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import kotlin.math.log10
 
+
+//--------------------------------------------------------------------------------------------------
+
 typealias OnPostChanged = (post: Post) -> Unit
+//--------------------------------------------------------------------------------------------------
 
-class PostsAdapter(private val onLike : OnPostChanged,
-                   private val onShare : OnPostChanged,
-                   private val onView : OnPostChanged
+interface IOnInteractionListener {
+    fun onLike(post : Post)
+    fun onShare(post : Post)
+    fun onView(post : Post)
+    fun onRemove(post : Post)
+    fun onEdit(post : Post)
+}
+//--------------------------------------------------------------------------------------------------
+
+
+
+class PostsAdapter(private val onInteractionListener :  IOnInteractionListener,
                    ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
-
-    fun FormatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
-        in 0..3 -> { count.toString() }
-        in 4..6  -> { String.format("%.1f", count / 1000.0) + "K" }
-        else -> { String.format("%.1f", count / 1000000.0) + "M"  }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, onLike, onShare, onView)
+        return PostViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }
+//--------------------------------------------------------------------------------------------------
 
 class PostViewHolder(private val binding: CardPostBinding,
-                     private val onLike: OnPostChanged,
-                     private val onShare: OnPostChanged,
-                     private val onView: OnPostChanged
+                     private val listeners : IOnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun FormatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
+    private fun formatCountValue(count : Int) : String = when((log10(count.toDouble() + 1)).toInt()) {
         in 0..3 -> { count.toString() }
         in 4..6  -> { String.format("%.1f", count / 1000.0) + "K" }
         else -> { String.format("%.1f", count / 1000000.0) + "M"  }
@@ -58,22 +64,49 @@ class PostViewHolder(private val binding: CardPostBinding,
                     R.drawable.baseline_favorite_border_24
                 }
             )
-            txtLiked.text = FormatCountValue(post.likesCount)
-            txtShared.text = FormatCountValue(post.sharedCount)
-            txtViewed.text = FormatCountValue(post.viewedCount)
+            txtLiked.text = formatCountValue(post.likesCount)
+            txtShared.text = formatCountValue(post.sharedCount)
+            txtViewed.text = formatCountValue(post.viewedCount)
+
+            //----------------------------------------------------
 
             btnLiked.setOnClickListener {
-                onLike(post)
+                listeners.onLike(post)
             }
+
             btnShared.setOnClickListener {
-                onShare(post)
+                listeners.onShare(post)
             }
+
             btnViewed.setOnClickListener {
-                onView(post)
+                listeners.onView(post)
             }
+
+            btnPostMenu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.options_post)
+                    setOnMenuItemClickListener {mnuItem ->
+                        when (mnuItem.itemId) {
+                            R.id.mnuRemovePost -> {
+                                listeners.onRemove(post)
+                                true
+                            }
+                            R.id.mnuEditPost -> {
+                                listeners.onEdit(post)
+                                true
+                            }
+                            else -> false
+                        } // when (it.itemId)
+                    } // setOnMenuItemClickListener {}
+                }.show()
+            }
+
+
+
         } // with(binding)
     } // fun bind()
 }
+//--------------------------------------------------------------------------------------------------
 
 object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
@@ -88,5 +121,5 @@ object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
 
 
 }
-
+//--------------------------------------------------------------------------------------------------
 

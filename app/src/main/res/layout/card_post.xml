@@ -13,7 +13,10 @@
 
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent="0.08"
+        app:layout_constraintHeight_percent="0.07"
+        app:layout_constraintWidth_percent="0.07"
+        android:minWidth="@dimen/touchable_min"
+        android:minHeight="@dimen/touchable_min"
         app:layout_constraintDimensionRatio="1:1"
 
 
@@ -33,7 +36,7 @@
         android:maxLines="1"
 
         app:layout_constraintBottom_toTopOf="@id/txtPublished"
-        app:layout_constraintEnd_toStartOf="@+id/btnPostMnu"
+        app:layout_constraintEnd_toStartOf="@+id/btnPostMenu"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@+id/avatar"
 
@@ -47,18 +50,18 @@
         android:layout_marginStart="@dimen/small_spacing"
         android:layout_marginEnd="@dimen/small_spacing"
 
-        android:ellipsize="end"
         android:maxLines="1"
+        android:ellipsize="end"
 
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
-        app:layout_constraintEnd_toStartOf="@+id/btnPostMnu"
+        app:layout_constraintEnd_toStartOf="@+id/btnPostMenu"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@+id/txtAuthor"
 
         tools:text="@sample/posts.json/data/published" />
 
     <ImageButton
-        android:id="@+id/btnPostMnu"
+        android:id="@+id/btnPostMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -72,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar,txtAuthor,txtPublished,btnPostMnu" />
+        app:constraint_referenced_ids="avatar,txtAuthor,txtPublished,btnPostMenu" />
 
     <TextView
         android:id="@+id/txtContent"

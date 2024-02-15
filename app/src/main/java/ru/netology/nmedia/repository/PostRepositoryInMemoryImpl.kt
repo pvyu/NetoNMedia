@@ -12,86 +12,75 @@ class PostRepositoryInMemoryImpl : PostRepository {
     // Допустимо ли использовать MutableList, будет лди от корректно преобзоваван к
     // LiveData<List<Post>> для использования сторонними классами
 
+    private var nextPostId : Long = 0L
+
     private var posts : List<Post> = listOf<Post> (
         Post(
-            id = 1,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
             published = "04 февракля в 21:43",
-            likesCount = 0,
-            likedByMe = false,
-            sharedCount = 0,
-            viewedCount = 0,
         ),
         Post(
-            id = 2,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это второй!",
             published = "08 февракля в 21:43",
-            likesCount = 0,
-            likedByMe = false,
-            sharedCount = 0,
-            viewedCount = 0,
         ),
         Post(
-            id = 3,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это третий!",
             published = "08 февракля в 21:43",
-            likesCount = 0,
-            likedByMe = false,
-            sharedCount = 0,
-            viewedCount = 0,
         ),
         Post(
-            id = 4,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это четвёртый!",
             published = "08 февракля в 21:43",
-            likesCount = 0,
-            likedByMe = false,
-            sharedCount = 0,
-            viewedCount = 0,
         ),
         Post(
-            id = 5,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это пятый!",
             published = "08 февракля в 21:43",
-            likesCount = 0,
-            likedByMe = false,
-            sharedCount = 0,
-            viewedCount = 0,
         ),
         Post(
-            id = 6,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это шестой!",
             published = "08 февракля в 21:43",
-            likesCount = 0,
-            likedByMe = false,
-            sharedCount = 0,
-            viewedCount = 0,
         ),
         Post(
-            id = 7,
+            id = ++nextPostId,
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это седьмой!",
             published = "08 февракля в 21:43",
-            likesCount = 0,
-            likedByMe = false,
-            sharedCount = 0,
-            viewedCount = 0,
         ),
     )
 
     private val data : MutableLiveData<List<Post>> = MutableLiveData(posts)
 
     override fun getAll(): LiveData<List<Post>> = data
+    //----------------------------------------------------------------------------------------------
+
+    override fun save(post: Post) {
+        if (post.id == 0L) {
+            posts = listOf(post.copy(id = ++nextPostId,
+                                     published = if (post.published.isEmpty()) { "No date" } else { post.published },
+                                     author = if (post.author.isEmpty()) { "No author" } else { post.author } )
+                    ) + posts
+        }
+        else {
+            posts = posts.map { if (it.id != post.id) it else it.copy(content = post.content) }
+        }
+        data.value = posts
+    }
+    //----------------------------------------------------------------------------------------------
 
     override fun likeById(id : Long) {
         posts = posts.map {
-            if(it.id != id) {
+            if (it.id != id) {
                 it }
             else {
                 it.copy(likedByMe = !it.likedByMe,
@@ -100,6 +89,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
         data.value = posts
     }
+    //----------------------------------------------------------------------------------------------
 
     override fun shareById(id : Long) {
         posts = posts.map {
@@ -112,6 +102,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         data.value = posts
         stepForSharedCounter *= 2
     }
+    //----------------------------------------------------------------------------------------------
 
     override fun viewById(id : Long) {
         posts = posts.map {
@@ -123,4 +114,13 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
         data.value = posts
     }
+    //----------------------------------------------------------------------------------------------
+
+    override fun removeById(id : Long) {
+        posts = posts.filter { it.id != id }
+        data.value = posts
+    }
+    //----------------------------------------------------------------------------------------------
+
 }
+//--------------------------------------------------------------------------------------------------
