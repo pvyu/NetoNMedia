@@ -10,8 +10,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/small_spacing"
 
-    tools:context=".MainActivity" >
-
+    tools:context=".MainActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -19,52 +18,130 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
 
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
         app:layout_constraintBottom_toTopOf="@+id/toolsTopBarrier"
         app:layout_constraintTop_toTopOf="parent"
 
-        tools:listitem="@layout/card_post">
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/card_post" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/toolsTopBarrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="editPostContent,btnSavePost" />
+        app:constraint_referenced_ids="editPostContent,btnSavePost,
+        btnCancelEditing, imgEditPen, txtEditMsg" />
 
+    <!--    app:layout_constraintTop_toTopOf="@id/toolsTopBarrier"-->
     <EditText
         android:id="@+id/editPostContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/strEnterNewPostText"
-        android:inputType="textMultiLine"
+        android:layout_marginRight="@dimen/small_spacing"
+        android:layout_marginTop="@dimen/small_spacing"
+
         android:background="@android:color/transparent"
+        android:hint="@string/strEnterNewPostText"
         android:importantForAutofill="no"
-        android:layout_marginRight="@dimen/common_spacing"
-        app:layout_constraintTop_toTopOf="@id/toolsTopBarrier"
+        android:inputType="textMultiLine"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSavePost"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
-<!--        android:contentDescription="@string/description_post_like"-->
+    <!--        android:contentDescription="@string/description_post_like"-->
     <ImageButton
         android:id="@+id/btnSavePost"
         android:layout_width="@dimen/touchable_min"
         android:layout_height="@dimen/touchable_min"
-        android:background="@android:color/transparent"
         android:layout_marginTop="@dimen/small_spacing"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/editPostContent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/baseline_done_24"
+        app:srcCompat="@drawable/baseline_done_24" />
+
+    <ImageButton
+        android:id="@+id/btnCancelEditing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/small_spacing"
+        android:layout_marginBottom="@dimen/small_spacing"
+
+        android:background="@android:color/transparent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/imgEditPen"
+        app:layout_constraintTop_toTopOf="@id/imgEditPen"
+
+        app:srcCompat="@drawable/baseline_close_24"
         />
 
+    <ImageView
+        android:id="@+id/imgEditPen"
 
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/small_spacing"
+        android:layout_marginBottom="@dimen/small_spacing"
+        android:background="@android:color/transparent"
 
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintWidth_percent="0.08"
+        android:minWidth="@dimen/touchable_min"
+        android:minHeight="@dimen/touchable_min"
+        app:layout_constraintDimensionRatio="1:1"
 
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolsTopBarrier"
+        app:layout_constraintBottom_toTopOf="@id/editPostContent"
+
+        app:srcCompat="@drawable/baseline_edit_24" />
+
+    <TextView
+        android:id="@+id/txtEditMsg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/small_spacing"
+        android:layout_marginEnd="@dimen/small_spacing"
+
+        app:layout_constraintTop_toTopOf="@id/imgEditPen"
+        app:layout_constraintBottom_toTopOf="@+id/txtEditPostContentShort"
+        app:layout_constraintEnd_toStartOf="@id/btnCancelEditing"
+        app:layout_constraintStart_toEndOf="@id/imgEditPen"
+        app:layout_constraintVertical_chainStyle="packed"
+
+        android:text="@string/strPostEditing"
+        />
+
+    <TextView
+        android:id="@+id/txtEditPostContentShort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/small_spacing"
+        android:layout_marginEnd="@dimen/small_spacing"
+
+        app:layout_constraintTop_toBottomOf="@id/txtEditMsg"
+        app:layout_constraintBottom_toBottomOf="@id/imgEditPen"
+        app:layout_constraintEnd_toStartOf="@id/btnCancelEditing"
+        app:layout_constraintStart_toEndOf="@id/imgEditPen"
+        app:layout_constraintVertical_chainStyle="packed"
+
+        android:maxLines="1"
+        android:ellipsize="end"
+        tools:text="текст поста..."
+        />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupEditing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="imgEditPen, txtEditMsg, txtEditPostContentShort, btnCancelEditing" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

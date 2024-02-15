@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NMedia</string>
     <string name="strNMedia">NMedia!</string>
+    <string name="strPostEditing">Post editing</string>
     <string name="mnuRemovePost">Remove post</string>
     <string name="mnuEditPost">Edit post</string>
     <string name="strEnterNewPostText">Enter new post text</string>

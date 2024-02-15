@@ -6,4 +6,5 @@
     <string name="strEnterNewPostText">Введите текст нового поста</string>
     <string name="strErrorEmptyContent">Содержание поста не может быть пустым</string>
     <string name="mnuEditPost">Редактировать пост</string>
+    <string name="strPostEditing">"Редактирование поста "</string>
 </resources>

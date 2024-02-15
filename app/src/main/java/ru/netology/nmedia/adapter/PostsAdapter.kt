@@ -68,6 +68,8 @@ class PostViewHolder(private val binding: CardPostBinding,
             txtShared.text = formatCountValue(post.sharedCount)
             txtViewed.text = formatCountValue(post.viewedCount)
 
+            //----------------------------------------------------
+
             btnLiked.setOnClickListener {
                 listeners.onLike(post)
             }
