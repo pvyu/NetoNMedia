@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import ru.netology.nmedia.adapter.IOnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.AndroidUtils
+import ru.netology.nmedia.util.AndroidUtils.focusAndShowKeyboard
 import ru.netology.nmedia.viewmodel.PostViewModel
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,10 +31,24 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel : PostViewModel by viewModels()
 
-        val adapter = PostsAdapter({post: Post -> viewModel.likeById(post.id)},
-                                   {post: Post -> viewModel.shareById(post.id)},
-                                   {post: Post -> viewModel.viewById(post.id)},
-                                   {post: Post -> viewModel.removeById(post.id)} )
+        val adapter = PostsAdapter(object : IOnInteractionListener {
+                                        override fun onLike(post: Post) {
+                                            viewModel.likeById(post.id)
+                                        }
+                                        override fun onShare(post: Post) {
+                                            viewModel.shareById(post.id)
+                                        }
+                                        override fun onView(post: Post) {
+                                            viewModel.viewById(post.id)
+                                        }
+                                        override fun onRemove(post: Post) {
+                                            viewModel.removeById(post.id)
+                                        }
+                                        override fun onEdit(post: Post) {
+                                            viewModel.edit(post)
+                                        }
+                                   }
+                      )
 
         //todo: нельзя ли здесь получить более подробную информацию об изменении данных, id поста, например?
         // Либо, подписаться на некую встпомагательную структуру данных? Чтобы попытаться минимизировать копирование.
@@ -46,6 +63,14 @@ class MainActivity : AppCompatActivity() {
         } // viewModel.data.observe(){}
 
         binding.recyclerView.adapter = adapter
+
+        viewModel.editedPost.observe(this) {post ->
+            if (post.id != 0L) {
+                binding.editPostContent.focusAndShowKeyboard()        // .requestFocus()
+                binding.editPostContent.setText(post.content)
+            }
+        }
+
 
         binding.btnSavePost.setOnClickListener {
             val text : String = binding.editPostContent.text.toString().trim()
