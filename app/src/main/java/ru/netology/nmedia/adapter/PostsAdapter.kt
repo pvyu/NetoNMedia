@@ -67,10 +67,10 @@ class PostViewHolder(private val binding: CardPostBinding,
 //                    R.drawable.baseline_favorite_border_24
 //                }
 //            )
+//            txtLiked.text = formatCountValue(post.likesCount)
 
-            txtLiked.text = formatCountValue(post.likesCount)
-            txtShared.text = formatCountValue(post.sharedCount)
-            txtViewed.text = formatCountValue(post.viewedCount)
+            btnShared.text = formatCountValue(post.sharedCount)
+            btnViewed.text = formatCountValue(post.viewedCount)
 
             //----------------------------------------------------
 
