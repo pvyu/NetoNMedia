@@ -99,18 +99,50 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="txtContent" />
 
-    <!--        app:tint="@color/ActionButtons"-->
-    <ImageButton
+<!--    https://github.com/material-components/material-components-android  -->
+
+<!--    &lt;!&ndash;    ИСХОДНАЯ КНОПКА     &ndash;&gt;-->
+<!--    &lt;!&ndash;    app:tint="@color/ActionButtons"&ndash;&gt;-->
+<!--    <ImageButton-->
+<!--        android:id="@+id/btnLiked"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:srcCompat="@drawable/baseline_favorite_border_24"-->
+<!--        android:background="@android:color/transparent"-->
+
+<!--        android:layout_marginTop="@dimen/common_spacing"-->
+
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/barrierContent" />-->
+
+
+<!--        app:buttonIconTint="@color/like_color_selector"-->
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/btnLiked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/baseline_favorite_border_24"
-        android:background="@android:color/transparent"
 
         android:layout_marginTop="@dimen/common_spacing"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barrierContent" />
+        app:layout_constraintTop_toBottomOf="@+id/barrierContent"
+
+        android:button="@drawable/like_icon_selector"
+        android:background="@android:color/transparent"
+
+        tools:checked="@sample/posts.json/data/likedByMe"
+        tools:text="@sample/posts.json/data/likes"
+
+        style="Widget.AppTheme.LikeCheckBox"
+    />
+
+
+
+
+
+
+
+
+
 
     <TextView
         android:id="@+id/txtLiked"
