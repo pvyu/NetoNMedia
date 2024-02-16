@@ -116,11 +116,12 @@
 <!--        app:layout_constraintTop_toBottomOf="@+id/barrierContent" />-->
 
 
-<!--        app:buttonIconTint="@color/like_color_selector"-->
+<!--    style="@style/Widget.AppTheme.LikeCheckBox"-->
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/btnLiked"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:minHeight="@dimen/touchable_min"
 
         android:layout_marginTop="@dimen/common_spacing"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,11 +129,10 @@
 
         android:button="@drawable/like_icon_selector"
         android:background="@android:color/transparent"
+        app:buttonTint="@color/like_color_selector"
 
         tools:checked="@sample/posts.json/data/likedByMe"
         tools:text="@sample/posts.json/data/likes"
-
-        style="Widget.AppTheme.LikeCheckBox"
     />
 
 
