@@ -56,17 +56,21 @@ class PostViewHolder(private val binding: CardPostBinding,
             txtAuthor.text = post.author
             txtPublished.text = post.published
             txtContent.text = post.content
-            btnLiked.setImageResource(
-                if (post.likedByMe) {
-                    R.drawable.baseline_favorite_red_24
-                }
-                else {
-                    R.drawable.baseline_favorite_border_24
-                }
-            )
-            txtLiked.text = formatCountValue(post.likesCount)
-            txtShared.text = formatCountValue(post.sharedCount)
-            txtViewed.text = formatCountValue(post.viewedCount)
+            btnLiked.isChecked = post.likedByMe
+            btnLiked.text = formatCountValue(post.likesCount)
+
+//            btnLiked.setImageResource(
+//                if (post.likedByMe) {
+//                    R.drawable.baseline_favorite_red_24
+//                }
+//                else {
+//                    R.drawable.baseline_favorite_border_24
+//                }
+//            )
+//            txtLiked.text = formatCountValue(post.likesCount)
+
+            btnShared.text = formatCountValue(post.sharedCount)
+            btnViewed.text = formatCountValue(post.viewedCount)
 
             //----------------------------------------------------
 
