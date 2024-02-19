@@ -1,4 +1,4 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.IOnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
