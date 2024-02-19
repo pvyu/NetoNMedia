@@ -6,4 +6,5 @@
     <string name="mnuEditPost">Edit post</string>
     <string name="strEnterNewPostText">Enter new post text</string>
     <string name="strErrorEmptyContent">Post content can\'t be empty</string>
+    <string name="strSharePostTitle">Share post</string>
 </resources>

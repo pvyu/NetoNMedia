@@ -7,4 +7,5 @@
     <string name="strErrorEmptyContent">Содержание поста не может быть пустым</string>
     <string name="mnuEditPost">Редактировать пост</string>
     <string name="strPostEditing">"Редактирование поста "</string>
+    <string name="strSharePostTitle">Поделитесь постом</string>
 </resources>
