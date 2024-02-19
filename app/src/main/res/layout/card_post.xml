@@ -59,13 +59,6 @@
         tools:text="@sample/posts.json/data/published" />
 
 
-
-
-
-
-
-
-
 <!--    <ImageButton-->
 <!--        android:id="@+id/btnPostMenu"-->
 <!--        android:layout_width="wrap_content"-->
@@ -120,8 +113,11 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="txtContent" />
 
-<!--    https://github.com/material-components/material-components-android  -->
 
+<!--    https://github.com/material-components/material-components-android  -->
+<!--    https://fonts.google.com/icons    -->
+
+    
 <!--    &lt;!&ndash;    ИСХОДНАЯ КНОПКА     &ndash;&gt;-->
 <!--    &lt;!&ndash;    app:tint="@color/ActionButtons"&ndash;&gt;-->
 <!--    <ImageButton-->
