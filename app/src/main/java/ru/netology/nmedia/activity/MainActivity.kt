@@ -34,6 +34,13 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel : PostViewModel by viewModels()
 
+
+        val newPostLauncher = registerForActivityResult(NewPostContract) {result ->
+            result ?: return@registerForActivityResult
+            viewModel.changeContentAndSave(result)
+        }
+
+
         val adapter = PostsAdapter(object : IOnInteractionListener {
                 override fun onLike(post: Post) {
                     viewModel.likeById(post.id)
@@ -47,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                     val chooser = Intent.createChooser(intent, getString(R.string.strSharePostTitle))
                     //startActivity(intent)
                     startActivity(chooser)
+
                     viewModel.shareById(post.id)
                 }
                 override fun onView(post: Post) {
@@ -79,26 +87,30 @@ class MainActivity : AppCompatActivity() {
             if (post.id != 0L) {
                 binding.txtEditPostContentShort.setText(post.content)
                 binding.groupEditing.visibility = View.VISIBLE
-                binding.editPostContent.focusAndShowKeyboard()        // .requestFocus()
+                binding.editPostContent.focusAndShowKeyboard()  // .requestFocus() не показывает клавиатуру
                 binding.editPostContent.setText(post.content)
             }
         }
 
 
         binding.btnSavePost.setOnClickListener {
-            val text : String = binding.editPostContent.text.toString().trim()
-            if (text.isEmpty()) {
-                Toast.makeText(this, R.string.strErrorEmptyContent, Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            viewModel.changeContentAndSave(text)
+            newPostLauncher.launch(null)
 
-            binding.groupEditing.visibility = View.GONE
-            binding.editPostContent.setText("")
-            binding.editPostContent.clearFocus()
-            AndroidUtils.hideKeyboard(it)
 
-            // binding.recyclerView.smoothScrollToPosition(0) // moved to adapter.submitList(posts)
+
+//            val text : String = binding.editPostContent.text.toString().trim()
+//            if (text.isEmpty()) {
+//                Toast.makeText(this, R.string.strErrorEmptyContent, Toast.LENGTH_LONG).show()
+//                return@setOnClickListener
+//            }
+//            viewModel.changeContentAndSave(text)
+//
+//            binding.groupEditing.visibility = View.GONE
+//            binding.editPostContent.setText("")
+//            binding.editPostContent.clearFocus()
+//            AndroidUtils.hideKeyboard(it)
+//
+//            // binding.recyclerView.smoothScrollToPosition(0) // moved to adapter.submitList(posts)
         }
 
         binding.btnCancelEditing.setOnClickListener {

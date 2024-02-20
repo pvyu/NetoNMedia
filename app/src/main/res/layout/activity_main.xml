@@ -39,7 +39,7 @@
         android:id="@+id/editPostContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/small_spacing"
+        android:layout_marginEnd="@dimen/small_spacing"
         android:layout_marginTop="@dimen/small_spacing"
 
         android:background="@android:color/transparent"
@@ -63,22 +63,6 @@
         app:layout_constraintStart_toEndOf="@id/editPostContent"
         app:srcCompat="@drawable/baseline_done_24" />
 
-    <ImageButton
-        android:id="@+id/btnCancelEditing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="@dimen/small_spacing"
-        android:layout_marginBottom="@dimen/small_spacing"
-
-        android:background="@android:color/transparent"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/imgEditPen"
-        app:layout_constraintTop_toTopOf="@id/imgEditPen"
-
-        app:srcCompat="@drawable/baseline_close_24"
-        />
 
     <ImageView
         android:id="@+id/imgEditPen"
@@ -100,6 +84,23 @@
         app:layout_constraintBottom_toTopOf="@id/editPostContent"
 
         app:srcCompat="@drawable/baseline_edit_24" />
+
+    <ImageButton
+        android:id="@+id/btnCancelEditing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/small_spacing"
+        android:layout_marginBottom="@dimen/small_spacing"
+
+        android:background="@android:color/transparent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/imgEditPen"
+        app:layout_constraintTop_toTopOf="@id/imgEditPen"
+
+        app:srcCompat="@drawable/baseline_close_24"
+        />
 
     <TextView
         android:id="@+id/txtEditMsg"
@@ -138,11 +139,13 @@
         />
 
 <!--https://developer.android.com/reference/androidx/constraintlayout/widget/Group-->
+
+<!--    android:visibility="gone"-->
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupEditing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="imgEditPen, txtEditMsg, txtEditPostContentShort, btnCancelEditing" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,4 +8,6 @@
     <string name="mnuEditPost">Редактировать пост</string>
     <string name="strPostEditing">"Редактирование поста "</string>
     <string name="strSharePostTitle">Поделитесь постом</string>
+    <string name="strNewPostAdding">Добавление нового поста</string>
+    <string name="strEditPostText">Отредактируйте текст поста</string>
 </resources>

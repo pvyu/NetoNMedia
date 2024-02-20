@@ -36,6 +36,7 @@ android {
 
 def mdc_version = "1.10.0"
 
+def fragment_version = "1.6.2"
 def activity_version = "1.8.2"
 def constraintlayout_version = "2.1.4"
 
@@ -53,6 +54,7 @@ dependencies {
 
     implementation "com.google.android.material:material:$mdc_version"
 
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
 
