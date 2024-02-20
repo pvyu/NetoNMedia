@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityNewPostBinding
+import ru.netology.nmedia.util.AndroidUtils.focusAndShowKeyboard
 
 class NewPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,18 +24,19 @@ class NewPostActivity : AppCompatActivity() {
             val text : String? = it.getStringExtra(Intent.EXTRA_TEXT)
             if (text == null) {
                 // Добавленеи нового поста
-                binding.editPostContent.hint = getString(R.string.strEditPostText)
+                binding.editPostContent.hint = getString(R.string.strEnterNewPostText)
                 binding.txtEditMsg.text = getString(R.string.strNewPostAdding)
                 binding.txtEditPostContentShort.text = ""
                 binding.groupEditing.visibility = View.GONE
             } // if text.isNullOrBlank()
             else {
                 // Редактирование поста
-                binding.editPostContent.hint = getString(R.string.strEnterNewPostText)
+                binding.editPostContent.hint = getString(R.string.strEditPostText)
                 binding.txtEditMsg.text = getString(R.string.strPostEditing)
                 binding.txtEditPostContentShort.text = text
                 binding.groupEditing.visibility = View.VISIBLE
                 binding.editPostContent.setText(text)
+                binding.editPostContent.focusAndShowKeyboard()  // .requestFocus() не показывает клавиатуру
             }
         } // intent?.let {}
         //-----------------------------------------------------------

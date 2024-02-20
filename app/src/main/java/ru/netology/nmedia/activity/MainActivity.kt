@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.IOnInteractionListener
@@ -12,7 +11,6 @@ import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.AndroidUtils
-import ru.netology.nmedia.util.AndroidUtils.focusAndShowKeyboard
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 
@@ -36,10 +34,13 @@ class MainActivity : AppCompatActivity() {
 
 
         val newPostLauncher = registerForActivityResult(NewPostContract) {result ->
-            result ?: return@registerForActivityResult
+            if (result == null) {
+                viewModel.cancelEditing()
+                return@registerForActivityResult
+            }
             viewModel.changeContentAndSave(result)
         }
-
+        //------------------------------------------------------------------------------------
 
         val adapter = PostsAdapter(object : IOnInteractionListener {
                 override fun onLike(post: Post) {
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         )
+        //------------------------------------------------------------------------------------
 
         //todo: нельзя ли здесь получить более подробную информацию об изменении данных, id поста, например?
         // Либо, подписаться на некую встпомагательную структуру данных? Чтобы попытаться минимизировать копирование.
@@ -82,45 +84,20 @@ class MainActivity : AppCompatActivity() {
         } // viewModel.data.observe(){}
 
         binding.recyclerView.adapter = adapter
+        //------------------------------------------------------------------------------------
 
         viewModel.editedPost.observe(this) {post ->
             if (post.id != 0L) {
-                binding.txtEditPostContentShort.setText(post.content)
-                binding.groupEditing.visibility = View.VISIBLE
-                binding.editPostContent.focusAndShowKeyboard()  // .requestFocus() не показывает клавиатуру
-                binding.editPostContent.setText(post.content)
+                newPostLauncher.launch(post.content)
             }
         }
+        //------------------------------------------------------------------------------------
 
-
-        binding.btnSavePost.setOnClickListener {
+        binding.btnAddPost.setOnClickListener {
             newPostLauncher.launch(null)
-
-
-
-//            val text : String = binding.editPostContent.text.toString().trim()
-//            if (text.isEmpty()) {
-//                Toast.makeText(this, R.string.strErrorEmptyContent, Toast.LENGTH_LONG).show()
-//                return@setOnClickListener
-//            }
-//            viewModel.changeContentAndSave(text)
-//
-//            binding.groupEditing.visibility = View.GONE
-//            binding.editPostContent.setText("")
-//            binding.editPostContent.clearFocus()
-//            AndroidUtils.hideKeyboard(it)
-//
-//            // binding.recyclerView.smoothScrollToPosition(0) // moved to adapter.submitList(posts)
         }
+        //------------------------------------------------------------------------------------
 
-        binding.btnCancelEditing.setOnClickListener {
-            viewModel.cancelEditing()
-
-            binding.groupEditing.visibility = View.GONE
-            binding.editPostContent.setText("")
-            binding.editPostContent.clearFocus()
-            AndroidUtils.hideKeyboard(it)
-        }
 
 
     } //override fun onCreate()
