@@ -10,4 +10,5 @@
     <string name="strSharePostTitle">Поделитесь постом</string>
     <string name="strNewPostAdding">Добавление нового поста</string>
     <string name="strEditPostText">Отредактируйте текст поста</string>
+    <string name="txtViewSCount">просмотров:</string>
 </resources>

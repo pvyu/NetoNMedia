@@ -9,4 +9,5 @@
     <string name="strEditPostText">Edit post`s text</string>
     <string name="strErrorEmptyContent">Post content can\'t be empty</string>
     <string name="strSharePostTitle">Share post</string>
+    <string name="txtViewSCount">views:</string>
 </resources>

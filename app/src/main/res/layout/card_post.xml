@@ -106,12 +106,86 @@
         app:barrierMargin="@dimen/small_spacing"
         tools:text="@sample/posts.json/data/content" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrierContent"
-        android:layout_width="wrap_content"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutVideo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="txtContent" />
+        app:layout_constraintTop_toBottomOf="@id/txtContent"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imageVideo"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_spacing"
+            android:minWidth="@dimen/touchable_min"
+            android:minHeight="@dimen/touchable_min"
+            app:layout_constraintDimensionRatio="1:1"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            app:srcCompat="@drawable/video_pic2" />
+
+
+        <ImageButton
+            android:id="@+id/btnPlayVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintDimensionRatio="1:1"
+            android:background="@android:color/transparent"
+
+            app:layout_constraintTop_toTopOf="@+id/imageVideo"
+            app:layout_constraintBottom_toBottomOf="@+id/imageVideo"
+            app:layout_constraintStart_toStartOf="@+id/imageVideo"
+            app:layout_constraintEnd_toEndOf="@+id/imageVideo"
+
+            app:srcCompat="@drawable/baseline_play_circle_outline_24" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_spacing"
+            android:layout_marginStart="@dimen/small_spacing"
+            android:layout_marginEnd="@dimen/small_spacing"
+
+            android:ellipsize="end"
+            android:maxLines="1"
+
+            app:layout_constraintTop_toBottomOf="@+id/imageVideo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Название видео" />
+
+        <TextView
+            android:id="@+id/txtViewCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_spacing"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtName"
+            android:text="@string/txtViewSCount" />
+
+        <TextView
+            android:id="@+id/txtViewCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_spacing"
+            android:layout_marginEnd="@dimen/small_spacing"
+
+            android:ellipsize="end"
+            android:maxLines="1"
+
+            app:layout_constraintTop_toBottomOf="@+id/txtName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtViewCountText"
+            tools:text="0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 <!--    https://github.com/material-components/material-components-android  -->
@@ -158,7 +232,7 @@
 
         android:layout_marginTop="@dimen/small_spacing"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barrierContent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutVideo"
 
         style="@style/Widget.Material3.Button.TextButton.Icon"
         app:icon="@drawable/like_icon_selector"
@@ -178,7 +252,7 @@
         android:layout_marginTop="@dimen/small_spacing"
         android:layout_marginStart="@dimen/small_spacing"
         app:layout_constraintStart_toEndOf="@+id/btnLiked"
-        app:layout_constraintTop_toBottomOf="@+id/barrierContent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutVideo"
 
         style="@style/Widget.Material3.Button.TextButton.Icon"
         app:icon="@drawable/baseline_share_24"
@@ -200,7 +274,7 @@
         android:layout_marginTop="@dimen/small_spacing"
         android:layout_marginStart="@dimen/small_spacing"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barrierContent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutVideo"
 
         style="@style/Widget.Material3.Button.TextButton.Icon"
         app:icon="@drawable/baseline_remove_red_eye_24"
