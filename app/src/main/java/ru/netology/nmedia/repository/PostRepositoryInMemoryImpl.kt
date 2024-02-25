@@ -3,6 +3,7 @@ package ru.netology.nmedia.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.PostVideo
 
 class PostRepositoryInMemoryImpl : PostRepository {
     private var stepForSharedCounter : Int = 1
@@ -26,6 +27,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             author = "Нетология. Университет интернет-профессий будущего",
             content = "Привет, это второй!",
             published = "08 февракля в 21:43",
+            vedeo = PostVideo("Станислав Дробышевский. Выбор профессии и работа с точки зрения науки", "https://youtu.be/DA2S9UEGF7c", 0)
         ),
         Post(
             id = ++nextPostId,

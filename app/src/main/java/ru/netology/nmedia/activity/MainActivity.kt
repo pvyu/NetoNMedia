@@ -1,16 +1,16 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
+import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.IOnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.AndroidUtils
-import ru.netology.nmedia.util.AndroidUtils.focusAndShowKeyboard
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 
@@ -32,24 +32,44 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel : PostViewModel by viewModels()
 
+
+        val newPostLauncher = registerForActivityResult(NewPostContract) {result ->
+            if (result == null) {
+                viewModel.cancelEditing()
+                return@registerForActivityResult
+            }
+            viewModel.changeContentAndSave(result)
+        }
+        //------------------------------------------------------------------------------------
+
         val adapter = PostsAdapter(object : IOnInteractionListener {
-                                        override fun onLike(post: Post) {
-                                            viewModel.likeById(post.id)
-                                        }
-                                        override fun onShare(post: Post) {
-                                            viewModel.shareById(post.id)
-                                        }
-                                        override fun onView(post: Post) {
-                                            viewModel.viewById(post.id)
-                                        }
-                                        override fun onRemove(post: Post) {
-                                            viewModel.removeById(post.id)
-                                        }
-                                        override fun onEdit(post: Post) {
-                                            viewModel.edit(post)
-                                        }
-                                   }
-                      )
+                override fun onLike(post: Post) {
+                    viewModel.likeById(post.id)
+                }
+                override fun onShare(post: Post) {
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, post.content)
+                    }
+                    val chooser = Intent.createChooser(intent, getString(R.string.strSharePostTitle))
+                    //startActivity(intent)
+                    startActivity(chooser)
+
+                    viewModel.shareById(post.id)
+                }
+                override fun onView(post: Post) {
+                    viewModel.viewById(post.id)
+                }
+                override fun onRemove(post: Post) {
+                    viewModel.removeById(post.id)
+                }
+                override fun onEdit(post: Post) {
+                    viewModel.edit(post)
+                }
+            }
+        )
+        //------------------------------------------------------------------------------------
 
         //todo: нельзя ли здесь получить более подробную информацию об изменении данных, id поста, например?
         // Либо, подписаться на некую встпомагательную структуру данных? Чтобы попытаться минимизировать копирование.
@@ -64,41 +84,20 @@ class MainActivity : AppCompatActivity() {
         } // viewModel.data.observe(){}
 
         binding.recyclerView.adapter = adapter
+        //------------------------------------------------------------------------------------
 
         viewModel.editedPost.observe(this) {post ->
             if (post.id != 0L) {
-                binding.txtEditPostContentShort.setText(post.content)
-                binding.groupEditing.visibility = View.VISIBLE
-                binding.editPostContent.focusAndShowKeyboard()        // .requestFocus()
-                binding.editPostContent.setText(post.content)
+                newPostLauncher.launch(post.content)
             }
         }
+        //------------------------------------------------------------------------------------
 
-
-        binding.btnSavePost.setOnClickListener {
-            val text : String = binding.editPostContent.text.toString().trim()
-            if (text.isEmpty()) {
-                Toast.makeText(this, R.string.strErrorEmptyContent, Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
-            viewModel.changeContentAndSave(text)
-
-            binding.groupEditing.visibility = View.GONE
-            binding.editPostContent.setText("")
-            binding.editPostContent.clearFocus()
-            AndroidUtils.hideKeyboard(it)
-
-            // binding.recyclerView.smoothScrollToPosition(0) // moved to adapter.submitList(posts)
+        binding.btnAddPost.setOnClickListener {
+            newPostLauncher.launch(null)
         }
+        //------------------------------------------------------------------------------------
 
-        binding.btnCancelEditing.setOnClickListener {
-            viewModel.cancelEditing()
-
-            binding.groupEditing.visibility = View.GONE
-            binding.editPostContent.setText("")
-            binding.editPostContent.clearFocus()
-            AndroidUtils.hideKeyboard(it)
-        }
 
 
     } //override fun onCreate()

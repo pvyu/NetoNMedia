@@ -1,8 +1,13 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +55,14 @@ class PostViewHolder(private val binding: CardPostBinding,
         in 4..6  -> { String.format("%.1f", count / 1000.0) + "K" }
         else -> { String.format("%.1f", count / 1000000.0) + "M"  }
     }
+    //-----------------------------------------------------------------------------
+
+    fun doIntentToPlayURL(cntxt : Context, url : String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        //val chooser = Intent.createChooser(intent, getString(R.string.strSharePostTitle))
+        startActivity(cntxt, intent, null)
+    }
+    //-----------------------------------------------------------------------------
 
     fun bind(post: Post) {
         with(binding) {
@@ -59,32 +72,46 @@ class PostViewHolder(private val binding: CardPostBinding,
             btnLiked.isChecked = post.likedByMe
             btnLiked.text = formatCountValue(post.likesCount)
 
-//            btnLiked.setImageResource(
-//                if (post.likedByMe) {
-//                    R.drawable.baseline_favorite_red_24
-//                }
-//                else {
-//                    R.drawable.baseline_favorite_border_24
-//                }
-//            )
-//            txtLiked.text = formatCountValue(post.likesCount)
+            layoutVideo.visibility = View.GONE
+            if (post.vedeo != null) {
+                layoutVideo.visibility = View.VISIBLE
+                txtName.text = post.vedeo.name
+                txtViewCount.text = post.vedeo.viewsCount.toString()
+            }
+            //----------------------------------------------------
+
+            btnPlayVideo.setOnClickListener {
+                if (post.vedeo != null) {
+                    doIntentToPlayURL(it.context, post.vedeo.videoURL)
+                }
+            }
+            //----------------------------------------------------
+
+            imageVideo.setOnClickListener {
+                if (post.vedeo != null) {
+                    doIntentToPlayURL(it.context, post.vedeo.videoURL)
+                }
+            }
+            //----------------------------------------------------
 
             btnShared.text = formatCountValue(post.sharedCount)
             btnViewed.text = formatCountValue(post.viewedCount)
-
             //----------------------------------------------------
 
             btnLiked.setOnClickListener {
                 listeners.onLike(post)
             }
+            //----------------------------------------------------
 
             btnShared.setOnClickListener {
                 listeners.onShare(post)
             }
+            //----------------------------------------------------
 
             btnViewed.setOnClickListener {
                 listeners.onView(post)
             }
+            //----------------------------------------------------
 
             btnPostMenu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
@@ -104,6 +131,7 @@ class PostViewHolder(private val binding: CardPostBinding,
                     } // setOnMenuItemClickListener {}
                 }.show()
             }
+            //----------------------------------------------------
 
 
 
