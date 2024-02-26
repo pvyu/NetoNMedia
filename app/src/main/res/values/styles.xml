@@ -12,12 +12,13 @@
         <item name="iconTint">@color/like_color_selector</item>
     </style>
 
-<!--    <style name="IconButtonCommon" parent="attr/materialIconButtonStyle">-->
-<!--        <item name="android:minWidth">@dimen/touchable_min</item>-->
-<!--        <item name="android:minHeight">@dimen/touchable_min</item>-->
-<!--        <item name="iconTint">?attr/colorControlNormal</item>-->
-<!--        <item name="android:backgroundTint">@android:color/transparent</item>-->
-<!--    </style>-->
+<!--    Не работает, сильно увеличивается ширина кнопки, как у TextButton-->
+    <style name="IconButtonCommon" parent="Widget.Material3.Button.IconButton.Outlined">
+        <item name="android:minWidth">@dimen/touchable_min</item>
+        <item name="android:minHeight">@dimen/touchable_min</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
 
 
 </resources>
