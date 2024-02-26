@@ -228,16 +228,14 @@
         android:id="@+id/btnLiked"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:minHeight="@dimen/touchable_min"
 
         android:layout_marginTop="@dimen/small_spacing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutVideo"
 
-        style="@style/Widget.Material3.Button.TextButton.Icon"
+        style="@style/TextButtonIconLike"
         app:icon="@drawable/like_icon_selector"
         android:checkable="true"
-        app:iconTint="@color/like_color_selector"
 
         tools:checked="@sample/posts.json/data/likedByMe"
         tools:text="@sample/posts.json/data/likes"
@@ -247,18 +245,14 @@
         android:id="@+id/btnShared"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:minHeight="@dimen/touchable_min"
 
         android:layout_marginTop="@dimen/small_spacing"
         android:layout_marginStart="@dimen/small_spacing"
         app:layout_constraintStart_toEndOf="@+id/btnLiked"
         app:layout_constraintTop_toBottomOf="@+id/layoutVideo"
 
-        style="@style/Widget.Material3.Button.TextButton.Icon"
+        style="@style/TextButtonIconCommon"
         app:icon="@drawable/baseline_share_24"
-        app:iconTint="?attr/colorControlNormal"
-        android:textColor="?attr/colorControlNormal"
-        app:backgroundTint="@android:color/transparent"
 
         tools:checked="@sample/posts.json/data/likedByMe"
         tools:text="@sample/posts.json/data/likes"
@@ -269,18 +263,14 @@
         android:id="@+id/btnViewed"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:minHeight="@dimen/touchable_min"
 
         android:layout_marginTop="@dimen/small_spacing"
         android:layout_marginStart="@dimen/small_spacing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutVideo"
 
-        style="@style/Widget.Material3.Button.TextButton.Icon"
+        style="@style/TextButtonIconCommon"
         app:icon="@drawable/baseline_remove_red_eye_24"
-        app:iconTint="?attr/colorControlNormal"
-        android:textColor="?attr/colorControlNormal"
-        app:backgroundTint="@android:color/transparent"
 
         tools:text="@sample/posts.json/data/viewed"
     />

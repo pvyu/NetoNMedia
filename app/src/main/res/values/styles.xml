@@ -1,10 +1,24 @@
 <resources>
 
-<!--    <style name="Widget.AppTheme.LikeCheckBox" -->
-<!--           parent="Widget.Material3.CompoundButton.CheckBox">-->
-<!--        <item name="buttonTint">@color/like_color_selector</item>-->
-<!--    </style>-->
+    <style name="TextButtonIconCommon" parent="Widget.Material3.Button.TextButton.Icon">
+        <item name="android:minWidth">@dimen/touchable_min</item>
+        <item name="android:minHeight">@dimen/touchable_min</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
 
+    <style name="TextButtonIconLike" parent="TextButtonIconCommon">
+        <item name="iconTint">@color/like_color_selector</item>
+    </style>
+
+<!--    Не работает, сильно увеличивается ширина кнопки, как у TextButton-->
+    <style name="IconButtonCommon" parent="Widget.Material3.Button.IconButton.Outlined">
+        <item name="android:minWidth">@dimen/touchable_min</item>
+        <item name="android:minHeight">@dimen/touchable_min</item>
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
 
 
 </resources>
