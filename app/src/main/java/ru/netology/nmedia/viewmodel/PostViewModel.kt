@@ -1,11 +1,15 @@
 package ru.netology.nmedia.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
+import ru.netology.nmedia.repository.PostRepositoryFileImpl
 import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
+import ru.netology.nmedia.repository.PostRepositorySharedPrefsImpl
 
 
 private val emptyPost = Post()
@@ -14,9 +18,11 @@ private val emptyPost = Post()
 //todo:
 // class PostViewModel(private var repository: PostRepository) : ViewModel() {} ?
 
-class PostViewModel : ViewModel() {
+class PostViewModel(application: Application) : AndroidViewModel(application) {
     // упрощённый вариант
-    private var repository: PostRepository = PostRepositoryInMemoryImpl()
+    //private var repository: PostRepository = PostRepositoryInMemoryImpl()
+    //private var repository: PostRepository = PostRepositorySharedPrefsImpl(application)
+    private var repository: PostRepository = PostRepositoryFileImpl(application)
 
     fun chanchReposytory(postRepository : PostRepository) {
         repository = postRepository
