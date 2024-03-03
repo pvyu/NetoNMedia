@@ -59,8 +59,8 @@ class PostViewHolder(private val binding: CardPostBinding,
 
     fun doIntentToPlayURL(cntxt : Context, url : String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        //val chooser = Intent.createChooser(intent, getString(R.string.strSharePostTitle))
-        startActivity(cntxt, intent, null)
+        val chooser = Intent.createChooser(intent, cntxt.getString(R.string.strSharePostTitle))
+        startActivity(cntxt, chooser, null)
     }
     //-----------------------------------------------------------------------------
 
