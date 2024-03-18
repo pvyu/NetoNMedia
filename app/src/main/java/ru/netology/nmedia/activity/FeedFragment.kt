@@ -1,26 +1,33 @@
 package ru.netology.nmedia.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.viewModels
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.IOnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
-import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 
-class MainActivity : AppCompatActivity() {
+class FeedFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val binding = FragmentFeedBinding.inflate(inflater, container, false)
+        //setContentView(binding.root)
 
         //todo:
         // разобраться как инстанцировать viewModel через объявление viewModel:
@@ -30,16 +37,17 @@ class MainActivity : AppCompatActivity() {
         // через переопределение параметра “фабрика” у функции viewModels -
         // через этот параметр можно указывать вызов конструктора, если отличается от того, что по умолчанию.
 
-        val viewModel : PostViewModel by viewModels()
+        //todo: ownerProducer = ::requireParentFragment - зачем?
+        val viewModel : PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
 
-        val newPostLauncher = registerForActivityResult(NewPostContract) {result ->
-            if (result == null) {
-                viewModel.cancelEditing()
-                return@registerForActivityResult
-            }
-            viewModel.changeContentAndSave(result)
-        }
+//        val newPostLauncher = registerForActivityResult(NewPostContract) {result ->
+//            if (result == null) {
+//                viewModel.cancelEditing()
+//                return@registerForActivityResult
+//            }
+//            viewModel.changeContentAndSave(result)
+//        }
         //------------------------------------------------------------------------------------
 
         val adapter = PostsAdapter(object : IOnInteractionListener {
@@ -74,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         //todo: нельзя ли здесь получить более подробную информацию об изменении данных, id поста, например?
         // Либо, подписаться на некую встпомагательную структуру данных? Чтобы попытаться минимизировать копирование.
         // В этом случае ListAdaptor будет, скорее всего, не нужен?
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             val isNewPost : Boolean = (adapter.currentList.size < posts.size) && adapter.currentList.size > 0
             adapter.submitList(posts) {
                 if (isNewPost) {
@@ -86,19 +94,23 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         //------------------------------------------------------------------------------------
 
-        viewModel.editedPost.observe(this) {post ->
+        viewModel.editedPost.observe(viewLifecycleOwner) {post ->
             if (post.id != 0L) {
-                newPostLauncher.launch(post.content)
+                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                                             Bundle().apply { textArg = post.content }
+                )
+                //newPostLauncher.launch(post.content)
             }
         }
         //------------------------------------------------------------------------------------
 
         binding.btnAddPost.setOnClickListener {
-            newPostLauncher.launch(null)
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+            //newPostLauncher.launch(null)
         }
         //------------------------------------------------------------------------------------
 
 
-
-    } //override fun onCreate()
+        return binding.root
+    } //override fun onCreateView()
 }
