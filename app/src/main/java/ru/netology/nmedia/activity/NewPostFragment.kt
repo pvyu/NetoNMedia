@@ -53,10 +53,11 @@ class NewPostFragment : Fragment() {
                 binding.txtEditPostContentShort.text = it.textArg
                 binding.groupEditing.visibility = View.VISIBLE
                 binding.editPostContent.setText(it.textArg)
-                binding.editPostContent.focusAndShowKeyboard()  // .requestFocus() не показывает клавиатуру
             }
         }
         //-----------------------------------------------------------
+
+        binding.editPostContent.focusAndShowKeyboard()  // .requestFocus() не показывает клавиатуру
 
         binding.btnOk.setOnClickListener {
             val text = binding.editPostContent.text.toString()
