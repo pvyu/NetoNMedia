@@ -10,4 +10,6 @@
     <string name="strErrorEmptyContent">Post content can\'t be empty</string>
     <string name="strSharePostTitle">Share post</string>
     <string name="txtViewSCount">views:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

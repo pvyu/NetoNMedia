@@ -23,11 +23,12 @@ typealias OnPostChanged = (post: Post) -> Unit
 //--------------------------------------------------------------------------------------------------
 
 interface IOnInteractionListener {
-    fun onLike(post : Post)
-    fun onShare(post : Post)
-    fun onView(post : Post)
-    fun onRemove(post : Post)
-    fun onEdit(post : Post)
+    fun onLike(post : Post) {}
+    fun onShare(post : Post) {}
+    fun onView(post : Post) {}
+    fun onRemove(post : Post) {}
+    fun onEdit(post : Post) {}
+    fun onPostOpen(post: Post) {}
 }
 //--------------------------------------------------------------------------------------------------
 
@@ -133,6 +134,10 @@ class PostViewHolder(private val binding: CardPostBinding,
             }
             //----------------------------------------------------
 
+            root.setOnClickListener {
+                listeners.onPostOpen(post)
+            }
+            //----------------------------------------------------
 
 
         } // with(binding)
