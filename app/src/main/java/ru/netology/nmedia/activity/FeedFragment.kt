@@ -1,6 +1,5 @@
 package ru.netology.nmedia.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
-import ru.netology.nmedia.adapter.IOnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
@@ -40,46 +38,15 @@ class FeedFragment : Fragment() {
         //todo: ownerProducer = ::requireParentFragment - зачем?
         val viewModel : PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
-
-//        val newPostLauncher = registerForActivityResult(NewPostContract) {result ->
-//            if (result == null) {
-//                viewModel.cancelEditing()
-//                return@registerForActivityResult
-//            }
-//            viewModel.changeContentAndSave(result)
-//        }
         //------------------------------------------------------------------------------------
 
-        val adapter = PostsAdapter(object : IOnInteractionListener {
-                override fun onLike(post: Post) {
-                    viewModel.likeById(post.id)
-                }
-                override fun onShare(post: Post) {
-                    val intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        type = "text/plain"
-                        putExtra(Intent.EXTRA_TEXT, post.content)
-                    }
-                    val chooser = Intent.createChooser(intent, getString(R.string.strSharePostTitle))
-                    //startActivity(intent)
-                    startActivity(chooser)
-
-                    viewModel.shareById(post.id)
-                }
-                override fun onView(post: Post) {
-                    viewModel.viewById(post.id)
-                }
-                override fun onRemove(post: Post) {
-                    viewModel.removeById(post.id)
-                }
-                override fun onEdit(post: Post) {
-                    viewModel.edit(post)
-                }
-                override fun onPostOpen(post: Post) {
-                    findNavController().navigate(R.id.action_feedFragment_to_onePostFragment,
-                                                 Bundle().apply { textArg = post.id.toString() } )
-                }
-        }
+        val adapter = PostsAdapter(object : PostInteractionListener(viewModel, this.requireContext()) {
+                                        override fun onPostOpen(post: Post) {
+                                            findNavController().navigate(
+                                                R.id.action_feedFragment_to_onePostFragment,
+                                                Bundle().apply { textArg = post.id.toString() } )
+                                        }
+                                   }
         )
         //------------------------------------------------------------------------------------
 

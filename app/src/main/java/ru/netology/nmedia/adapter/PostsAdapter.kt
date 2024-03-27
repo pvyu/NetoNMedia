@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.IOnInteractionListener
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import kotlin.math.log10
@@ -22,19 +23,7 @@ import kotlin.math.log10
 typealias OnPostChanged = (post: Post) -> Unit
 //--------------------------------------------------------------------------------------------------
 
-interface IOnInteractionListener {
-    fun onLike(post : Post) {}
-    fun onShare(post : Post) {}
-    fun onView(post : Post) {}
-    fun onRemove(post : Post) {}
-    fun onEdit(post : Post) {}
-    fun onPostOpen(post: Post) {}
-}
-//--------------------------------------------------------------------------------------------------
-
-
-
-class PostsAdapter(private val onInteractionListener :  IOnInteractionListener,
+class PostsAdapter(private val onInteractionListener : IOnInteractionListener,
                    ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)

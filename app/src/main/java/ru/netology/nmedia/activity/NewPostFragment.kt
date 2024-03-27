@@ -15,9 +15,19 @@ import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.util.AndroidUtils.focusAndShowKeyboard
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
+import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
+interface IOnInteractionListener {
+    fun onLike(post : Post)
+    fun onShare(post : Post)
+    fun onView(post : Post)
+    fun onRemove(post : Post)
+    fun onEdit(post : Post)
+    fun onPostOpen(post: Post)
+}
+//--------------------------------------------------------------------------------------------------
 
 class NewPostFragment : Fragment() {
 
@@ -38,7 +48,7 @@ class NewPostFragment : Fragment() {
         //setContentView(binding.root)
 
         //-----------------------------------------------------------
-        arguments?.let{
+        arguments?.let {
             if (it.textArg == null) {
                 // Добавленеи нового поста
                 binding.editPostContent.hint = getString(R.string.strEnterNewPostText)
@@ -63,11 +73,9 @@ class NewPostFragment : Fragment() {
             val text = binding.editPostContent.text.toString()
             if (text.isNotBlank()) {
                 viewModel.changeContentAndSave(text)
-                //activity?.setResult(Activity.RESULT_OK, Intent().apply { putExtra(Intent.EXTRA_TEXT, text) })
             }
             else {
                 viewModel.cancelEditing()
-                //activity?.setResult(Activity.RESULT_CANCELED)
             }
             findNavController().navigateUp()
         }
@@ -82,15 +90,4 @@ class NewPostFragment : Fragment() {
         return binding.root
     } // onCreateView(){}
 }
-//--------------------------------------------------------------------------------------------------
-
-//object NewPostContract : ActivityResultContract<String?, String?>() {
-//    override fun createIntent(context: Context, input: String?): Intent {
-//        return Intent(context, NewPostFragment::class.java).apply { putExtra(Intent.EXTRA_TEXT, input) }
-//    }
-//
-//    override fun parseResult(resultCode: Int, intent: Intent?): String? {
-//        return intent?.getStringExtra(Intent.EXTRA_TEXT)
-//    }
-//}
 //--------------------------------------------------------------------------------------------------
