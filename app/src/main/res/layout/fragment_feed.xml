@@ -10,8 +10,13 @@
     android:layout_height="match_parent"
     android:padding="@dimen/small_spacing"
 
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.FeedFragment">
 
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/fragmentContainer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+<!--    </androidx.fragment.app.FragmentContainerView>-->
 
     <!--        android:contentDescription="@string/description_post_like"-->
     <androidx.recyclerview.widget.RecyclerView
